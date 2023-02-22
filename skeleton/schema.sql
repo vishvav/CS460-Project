@@ -18,7 +18,7 @@ CREATE TABLE Users (
 CREATE TABLE Albums (
   album_id INT AUTO_INCREMENT,
   Name VARCHAR(255) NOT NULL,
-  date_of_creation DATENAME DEFAULT CURRENT_TIMESTAMP,
+  date_of_creation DATETIME DEFAULT CURRENT_TIMESTAMP,
   user_id INT NOT NULL,
   PRIMARY KEY (album_id),
   FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE
@@ -78,9 +78,6 @@ CREATE TABLE Friendship(
   FOREIGN KEY (UID1) REFERENCES Users(user_id) ON DELETE CASCADE,
   FOREIGN KEY (UID2) REFERENCES Users(user_id) ON DELETE CASCADE
 );
-
-CREATE ASSERTION Comment-Constraint CHECK 
-(NOT EXISTS (SELECT * FROM Comments C, Pictures P WHERE C.picture_id = P.picture_id AND P.user_id = C.user_id));
 
 INSERT INTO Users (email, password) VALUES ('test@bu.edu', 'test');
 INSERT INTO Users (email, password) VALUES ('test1@bu.edu', 'test');
