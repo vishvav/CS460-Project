@@ -79,5 +79,5 @@ CREATE TABLE Friendship(
   FOREIGN KEY (UID2) REFERENCES Users(user_id) ON DELETE CASCADE
 );
 
-INSERT INTO Users (email, password) VALUES ('test@bu.edu', 'test');
-INSERT INTO Users (email, password) VALUES ('test1@bu.edu', 'test');
+INSERT INTO Users (email, password, dob, fname, lname) VALUES ('test@bu.edu', 'test', '1998-01-01', 'test', 'test');
+INSERT INTO Users (email, password, dob, fname, lname) VALUES ('test1@bu.edu', 'test', '1998-01-01', 'test1', 'test1');
