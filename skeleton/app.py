@@ -169,8 +169,23 @@ def isEmailUnique(email):
 @app.route('/profile')
 @flask_login.login_required
 def protected():
-	return render_template('hello.html', name=flask_login.current_user.id, message="Here's your profile")
+    email = flask_login.current_user.id
+    uid = getUserIdFromEmail(email)
+    cursor.execute(
+        "SELECT fname, lname, user_id, email, dob, hometown, gender FROM Users WHERE email = '{0}'".format(
+            email))
+    name = [[col.encode('utf8') if isinstance(col, unicode) else col for col in row] for row in cursor.fetchall()]
+    # user can access profile after logging in
 
+    profile = [["user ID:", int(name[0][2])], ["fname:", name[0][0]], ["lname:", name[0][1]], \
+               ["email:", name[0][3]], ["dob:", name[0][4]], ["hometown:", name[0][5]],
+               ["gender:", name[0][6]]]
+
+	## return render_template('hello.html', name=flask_login.current_user.id, message="Here's your profile")
+
+	return render_template('hello.html', name=(name[0][0] + " " + name[0][1]),
+                           message=("Here's your profile" + "\n" + str(profile)), \
+                           photos=getUsersPhotos(uid), viewAlbum=getUserAlbums(uid))
 #begin photo uploading code
 # photos uploaded using base64 encoding so they can be directly embeded in HTML
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
