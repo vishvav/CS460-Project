@@ -54,6 +54,7 @@ def user_loader(email):
 	user.id = email
 	return user
 
+
 @login_manager.request_loader
 def request_loader(request):
 	users = getUserList()
@@ -123,6 +124,11 @@ def register_user():
 	try:
 		email=request.form.get('email')
 		password=request.form.get('password')
+		fname=request.form.get('fname')
+		lname=request.form.get('lname')
+		hometown=request.form.get('hometown')
+		gender=request.form.get('gender')
+		dob=request.form.get('dob')
 	except:
 		print("couldn't find all tokens") #this prints to shell, end users will not see this (all print statements go to shell)
 		return flask.redirect(flask.url_for('register'))
