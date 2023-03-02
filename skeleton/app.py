@@ -528,8 +528,8 @@ def makeAlbum():
 		cursor = conn.cursor()
 		cursor.execute("INSERT INTO Albums (album_name, user_id, date_of_creation) VALUES ('{0}', '{1}', '{2}')".format(album_name, uid, date_of_creation))
 		conn.commit()
-		return render_template('hello.html', name=flask_login.current_user.id, message='You have successfully created an album!', photos=recentUserPhotos(uid))
-	return render_template('make_album.html')
+		return render_template('hello.html', name=flask_login.current_user.id, message='You have successfully created an album!', photos=recentUserPhotos(uid), base64=base64)
+	return render_template('make_album.html', base64=base64)
 
 
 @app.route('/like', methods=['GET', 'POST'])
@@ -557,8 +557,8 @@ def like():
 def albums():
 	uid = getUserIdFromEmail(flask_login.current_user.id)
 	if request.method == 'POST':
-		return render_template('albums.html', name=flask_login.current_user.id, message='Here are your albums:', albums=allAlbums(uid))
-	return render_template('albums.html', name=flask_login.current_user.id, message='Here are your albums:', albums=allAlbums(uid))
+		return render_template('albums.html', name=flask_login.current_user.id, message='Here are your albums:', albums=allAlbums(uid),base64=base64)
+	return render_template('albums.html', name=flask_login.current_user.id, message='Here are your albums:', albums=allAlbums(uid),base64=base64)
 
 def allAlbums(uid):
 	cursor = conn.cursor()
@@ -574,8 +574,8 @@ def seePhotos():
 		cursor = conn.cursor()
 		cursor.execute("SELECT p.imgdata, p.photo_id, p.caption FROM Pictures p, Albums a, StoredIn s WHERE a.album_id = s.album_id AND s.photo_id = p.photo_id AND a.album_name = '{0}' AND a.user_id = '{1}'".format(album_name, uid))
 		photos = cursor.fetchall()
-		return render_template('photo_feed.html', name=flask_login.current_user.id, message='Here are the photos in this album:', photos=photos)
-	return render_template('albums.html')
+		return render_template('photo_feed.html', name=flask_login.current_user.id, message='Here are the photos in this album:', photos=photos, base64=base64)
+	return render_template('albums.html',base64=base64)
 
 @app.route('/delete_album', methods=['GET', 'POST'])
 @flask_login.login_required
