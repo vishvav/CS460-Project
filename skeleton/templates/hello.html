@@ -10,13 +10,36 @@
 
 {% if photos %}
 <h2>Here are your photos</h2>
-    <ul>
-    {% for photo in photos %}
+    <p>You can view your albums in the dropdown<br> You will be redirected to the homepage if the selected Album is Empty<br>
+    *ADD MORE TEXT* </p>
 
-        <li>{{photo[2]}}<br>
-        <img src='data:image/jpg;base64, {{ base64.b64encode(photo[0]).decode("ascii") }}'/></li>
+<form method = "post" enctype="multipart/form-data" action="delete">
+    <select name="album" id="album" >
+        <option value="view_all">Select Album</option>
+        {% for album in albums %}
+            <option value="{{album[0]}}">{{album[1]}}</option>
+        {% endfor %}
+        <br>
+
+        <br>
+        <input type = "submit" name="method" value = "View Album">
+        <input type = "submit" name="method" value = "Delete Album">
+
+    </select>
+    <ul>
+        <br>
+      
+        {% for photo in photos %}
+
+        <li>{{photo[2]}}<br> from album <b>{{ photo[1] }}</b><br>
+
+        <img src='data:image/jpg;base64, {{ base64.b64encode(photo[0]).decode("ascii") }}'/><br>
+        delete it <input type="submit" name="deleteObject" value="{{photo[3]}}">
+          
+      </li>
     {% endfor %}
     </ul>
+</form>
 {% endif %}
 
 {% if message is none %}
@@ -26,7 +49,11 @@
 {% endif %}
 
 <ul>
+<li><a href='/login'>Login Here</a></li>
 <li><a href='/upload'>Upload a photo</a> </li>
+<li><a href='/make_album'>Make an album</a> </li>
+<li><a href='/search_photo'>Search Photos</a> </li>
 <li><a href='/logout'>Logout</a></li>
+<li><a href='/friends'>View friends</a></li>
 <li><a href='/'>Home</a></li>
 </ul>
