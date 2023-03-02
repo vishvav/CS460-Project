@@ -344,9 +344,9 @@ def comment():
 
 			cursor.execute("INSERT INTO CommentedOn(comment_id, photo_id) VALUES ('{0}', '{1}')".format(comment_id, photo_id))
 			conn.commit()
-			return render_template('hello.html', message='Comment added!', user=uid, photos=allPictures(uid))
+			return render_template('hello.html', message='Comment added!', user=uid, photos=allPictures())
 
-	return render_template('hello.html', message='You are viewing recent photos', user=uid, photos=allPictures(uid)) #maybe change to getAllPhotos()/allpictures
+	return render_template('hello.html', message='You are viewing recent photos', user=uid, photos=allPictures()) #maybe change to getAllPhotos()/allpictures
 
 #end photos code
 def recentUserPhotos(uid):
@@ -544,11 +544,11 @@ def like():
 		liked_photos = cursor.fetchall()
 		for i in range(len(liked_photos)):
 			if photo_id == int(liked_photos[i][0]):
-				return render_template('hello.html', name=flask_login.current_user.id, message='You already liked this photo!', photos=allPictures(uid))
+				return render_template('hello.html', name=flask_login.current_user.id, message='You already liked this photo!', photos=allPictures())
 		cursor.execute("INSERT INTO Likes (user_id, photo_id) VALUES ('{0}', '{1}')".format(uid, photo_id))
 		conn.commit()
 
-		return render_template('hello.html', name=flask_login.current_user.id, message='You liked this photo!', photos=allPictures(uid))
+		return render_template('hello.html', name=flask_login.current_user.id, message='You liked this photo!', photos=allPictures())
 	return render_template('hello.html', message='Most recent photos',user=uid, photos=allPictures())
 
 
